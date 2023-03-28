@@ -4,11 +4,20 @@ class ImageConstant {
   static String imgPastedimage01146x222 =
       'assets/images/img_pastedimage01_146x222.png';
 
+  static String imgUnion = 'assets/images/img_union.svg';
+  static String imgGroup10 = 'assets/images/img_group10.png';
+
+  static String imgGroup11 = 'assets/images/img_group11.png';
+
   static String imgXmlid641 = 'assets/images/img_xmlid641.svg';
 
   static String imgEllipse856 = 'assets/images/img_ellipse856.svg';
 
+  static String imgShapesOrange100 = 'assets/images/img_shapes_orange_100.png';
+
   static String imgRefresh = 'assets/images/img_refresh.svg';
+
+  static String imgLayer1 = 'assets/images/img_layer1.svg';
 
   static String imgVector = 'assets/images/img_vector.svg';
 
@@ -18,11 +27,16 @@ class ImageConstant {
 
   static String imgWarning = 'assets/images/img_warning.svg';
 
+  static String img334ecocaroutline = 'assets/images/img_334ecocaroutline.svg';
+
   static String imgArrowdown = 'assets/images/img_arrowdown.svg';
 
   static String imgXmlid196 = 'assets/images/img_xmlid196.svg';
 
   static String imgMapOrangeA200 = 'assets/images/img_map_orange_a200.svg';
+
+  static String img545roadtripoutline =
+      'assets/images/img_545roadtripoutline.svg';
 
   static String imgMenuOrange30001 = 'assets/images/img_menu_orange_300_01.svg';
 
@@ -38,6 +52,9 @@ class ImageConstant {
 
   static String imgXmlid668 = 'assets/images/img_xmlid668.svg';
 
+  static String img333bicycleflatline =
+      'assets/images/img_333bicycleflatline.svg';
+
   static String imgXmlid88 = 'assets/images/img_xmlid88.svg';
 
   static String imgClock = 'assets/images/img_clock.svg';
@@ -45,8 +62,6 @@ class ImageConstant {
   static String imgFacebook = 'assets/images/img_facebook.svg';
 
   static String imgAirplane = 'assets/images/img_airplane.svg';
-
-  static String imgUnion = 'assets/images/img_union.svg';
 
   static String imgXmlid550 = 'assets/images/img_xmlid550.svg';
 
@@ -76,6 +91,8 @@ class ImageConstant {
 
   static String imgXmlid718 = 'assets/images/img_xmlid718.svg';
 
+  static String imgGroup130 = 'assets/images/img_group130.svg';
+
   static String imgMaskgroup76x117 = 'assets/images/img_maskgroup_76x117.png';
 
   static String imgXmlid108 = 'assets/images/img_xmlid108.png';
@@ -84,9 +101,10 @@ class ImageConstant {
 
   static String imgXmlid195 = 'assets/images/img_xmlid195.svg';
 
-  static String imgShapes = 'assets/images/img_shapes.png';
-
   static String imgXmlid650 = 'assets/images/img_xmlid650.svg';
+
+  static String img334ecocarflatline =
+      'assets/images/img_334ecocarflatline.svg';
 
   static String imgXmlid670 = 'assets/images/img_xmlid670.svg';
 
@@ -98,12 +116,12 @@ class ImageConstant {
 
   static String imgXmlid667 = 'assets/images/img_xmlid667.svg';
 
-  static String imgGroup11 = 'assets/images/img_group11.png';
-
   static String imgCoursesYellow900 =
       'assets/images/img_courses_yellow_900.png';
 
   static String imgGroup1 = 'assets/images/img_group1.svg';
+
+  static String imgGroup120 = 'assets/images/img_group120.svg';
 
   static String imgFire = 'assets/images/img_fire.svg';
 
@@ -131,13 +149,13 @@ class ImageConstant {
 
   static String imgMap = 'assets/images/img_map.svg';
 
-  static String imgGroup10 = 'assets/images/img_group10.png';
-
   static String imgNotification = 'assets/images/img_notification.svg';
 
   static String imgMaskgroup34x68 = 'assets/images/img_maskgroup_34x68.png';
 
   static String imgPastedimage01 = 'assets/images/img_pastedimage01.png';
+
+  static String imgGroup127 = 'assets/images/img_group127.png';
 
   static String imgXmlid95 = 'assets/images/img_xmlid95.svg';
 
@@ -149,9 +167,13 @@ class ImageConstant {
 
   static String imgMail = 'assets/images/img_mail.svg';
 
+  static String imgGroup126 = 'assets/images/img_group126.png';
+
   static String imgXmlid98 = 'assets/images/img_xmlid98.svg';
 
   static String imgVector165 = 'assets/images/img_vector165.png';
+
+  static String imgGroup131 = 'assets/images/img_group131.svg';
 
   static String imgCourses = 'assets/images/img_courses.png';
 
@@ -176,11 +198,15 @@ class ImageConstant {
 
   static String imgMaskgroup = 'assets/images/img_maskgroup.png';
 
+  static String imgCartwocolor1 = 'assets/images/img_cartwocolor1.svg';
+
   static String imgXmlid777 = 'assets/images/img_xmlid777.png';
 
   static String imgGoogle = 'assets/images/img_google.svg';
 
   static String imgVolumePink800 = 'assets/images/img_volume_pink_800.svg';
+
+  static String imgShapes = 'assets/images/img_shapes.svg';
 
   static String imgSplashscreen = 'assets/images/img_splashscreen.png';
 
@@ -206,13 +232,13 @@ class ImageConstant {
 
   static String imgMaximize = 'assets/images/img_maximize.svg';
 
-  static String imgGroup7 = 'assets/images/img_group7.svg';
-
   static String imgXmlid644 = 'assets/images/img_xmlid644.svg';
 
   static String imgEyePink800 = 'assets/images/img_eye_pink_800.svg';
 
   static String imgXmlid198 = 'assets/images/img_xmlid198.svg';
+
+  static String imgGroup7 = 'assets/images/img_group7.svg';
 
   static String imgMenuWhiteA70080x414 =
       'assets/images/img_menu_white_a700_80x414.svg';

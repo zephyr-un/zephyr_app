@@ -90,6 +90,8 @@ class ColorConstant {
 
   static Color gray80075 = fromHex('#75573353');
 
+  static Color orange2004f = fromHex('#4fffb97b');
+
   static Color orange50 = fromHex('#fff3e8');
 
   static Color orange5001 = fromHex('#fff3e9');
@@ -99,6 +101,8 @@ class ColorConstant {
   static Color orange5087 = fromHex('#87fff3e9');
 
   static Color orange5000 = fromHex('#00fff3e9');
+
+  static Color orange20019 = fromHex('#19ffb97b');
 
   static Color indigo900 = fromHex('#0f0d5f');
 

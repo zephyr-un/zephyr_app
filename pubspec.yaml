@@ -2,6 +2,9 @@ name: zephyr_app
 description: A Very Good Project created by Very Good CLI.
 version: 1.0.0+1
 publish_to: none
+# Mininum sdk version
+
+
 
 environment:
   sdk: ">=2.19.0 <3.0.0"

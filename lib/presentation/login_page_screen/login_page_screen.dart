@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:zephyr_app/core/app_export.dart';
+import 'package:zephyr_app/presentation/reset_password_screen/reset_password_screen.dart';
 import 'package:zephyr_app/presentation/sign_up_page_screen/sign_up_page_screen.dart';
 import 'package:zephyr_app/widgets/custom_button.dart';
 
@@ -183,41 +184,11 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                                   right: 63,
                                   bottom: 13,
                                 ),
-                                decoration:
-                                    AppDecoration.fillWhiteA700.copyWith(
-                                  borderRadius:
-                                      BorderRadiusStyle.roundedBorder10,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    CustomImageView(
-                                      svgPath: ImageConstant.imgFacebook,
-                                      height: getSize(
-                                        23,
-                                      ),
-                                      width: getSize(
-                                        23,
-                                      ),
-                                      margin: getMargin(
-                                        top: 1,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: getPadding(
-                                        top: 1,
-                                        right: 15,
-                                      ),
-                                      child: Text(
-                                        "Continue with  Facebook",
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.left,
-                                        style: AppStyle.txtManropeBold16Gray800,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                // decoration:
+                                //     AppDecoration.fillWhiteA700.copyWith(
+                                //   borderRadius:
+                                //       BorderRadiusStyle.roundedBorder10,
+                                // ),
                               ),
                             ],
                           ),
@@ -550,7 +521,7 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => (),
+                              builder: (context) => ResetPasswordScreen(),
                             ),
                           );
                         },

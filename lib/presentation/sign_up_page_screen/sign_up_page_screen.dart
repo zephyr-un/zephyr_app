@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:zephyr_app/models/user.dart';
+import 'package:zephyr_app/presentation/get_started_screen/get_started_screen.dart';
 import 'package:zephyr_app/presentation/login_page_screen/login_page_screen.dart';
+import 'package:zephyr_app/service/firestore_service.dart';
 
 import '../sign_up_page_screen/widgets/sign_up_page_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -221,8 +224,25 @@ class _SignUpPageScreenState extends State<SignUpPageScreen> {
                         User? user = auth.currentUser;
                         user!
                             .updateDisplayName(displayNameController.text)
-                            .then((value) {
-                          showSnackBar(context, "Account created successfully");
+                            .then((value) async {
+                          DataBaseService db = DataBaseService(uid: user.uid);
+                          UserModel newUser = UserModel(
+                              uid: user.uid,
+                              displayName: displayNameController.text,
+                              email: emailController.text,
+                              authType: AuthType.email);
+                          bool b = await db.createUserData(newUser);
+                          if (b) {
+                            showSnackBar(
+                                context, "Account created successfully");
+
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => GetStartedScreen()));
+                          } else {
+                            throw Exception("Error while creating account");
+                          }
                         });
                       }).catchError((e) {
                         showSnackBar(context, e.toString());
