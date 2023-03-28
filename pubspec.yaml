@@ -10,7 +10,14 @@ dependencies:
   bloc: ^8.1.1
   flutter:
     sdk: flutter
+  firebase_core: ^2.8.0
+  firebase_auth: ^4.3.0
   flutter_bloc: ^8.1.2
+  flutter_svg_provider: 
+  google_sign_in: ^6.0.2
+  cloud_firestore: ^4.4.5
+  smooth_page_indicator:
+  cached_network_image:
   flutter_localizations:
     sdk: flutter
   intl: ^0.17.0
@@ -22,6 +29,16 @@ dev_dependencies:
   mocktail: ^0.3.0
   very_good_analysis: ^4.0.0
 
-flutter:
+flutter: 
   uses-material-design: true
   generate: true
+  assets: 
+    - assets/
+    - assets/images/
+  fonts: 
+    - family: Manrope
+      fonts: 
+        - asset: assets/fonts/ManropeBold.ttf
+          weight: 700
+        - asset: assets/fonts/ManropeMedium.ttf
+          weight: 500

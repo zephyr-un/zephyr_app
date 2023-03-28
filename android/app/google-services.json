@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "281741773479",
+    "project_id": "zephyrapp-dev",
+    "storage_bucket": "zephyrapp-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:281741773479:android:8ba32acaa709f1de8c2982",
+        "android_client_info": {
+          "package_name": "app.zephyrproject.zephyrapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "281741773479-9ru8jp0bjpgm2irf290a4t7s2nb368rq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.zephyrproject.zephyrapp",
+            "certificate_hash": "ff5a09d550e34cb196a683fab5c12227de812213"
+          }
+        },
+        {
+          "client_id": "281741773479-9h76iikvjd84nma9mqpkrmpk1mhibluo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYWQnXJskQt9_sna4pu-uN3-vUVshFjb0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "281741773479-9h76iikvjd84nma9mqpkrmpk1mhibluo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "281741773479-1a7su7mq8bnigji4huff22982uun4hbb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.zephyrproject.zephyrapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:281741773479:android:6d48adbfd1fc34db8c2982",
+        "android_client_info": {
+          "package_name": "com.example.verygoodcore.zephyr_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "281741773479-9h76iikvjd84nma9mqpkrmpk1mhibluo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYWQnXJskQt9_sna4pu-uN3-vUVshFjb0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "281741773479-9h76iikvjd84nma9mqpkrmpk1mhibluo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "281741773479-1a7su7mq8bnigji4huff22982uun4hbb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.zephyrproject.zephyrapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

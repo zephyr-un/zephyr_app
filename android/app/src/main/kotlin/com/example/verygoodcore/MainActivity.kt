@@ -1,4 +1,4 @@
-package com.example.verygoodcore.zephyr_app
+package app.zephyrproject.zephyrapp
 
 import io.flutter.embedding.android.FlutterActivity
 

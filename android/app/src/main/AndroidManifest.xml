@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.verygoodcore.zephyr_app">
+    package="app.zephyrproject.zephyrapp">
    <application
         android:label="zephyr_app"
         android:name="${applicationName}"
