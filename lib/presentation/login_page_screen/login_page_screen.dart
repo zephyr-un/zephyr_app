@@ -5,8 +5,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:zephyr_app/core/app_export.dart';
+import 'package:zephyr_app/presentation/get_started_one_screen/get_started_one_screen.dart';
+import 'package:zephyr_app/presentation/get_started_screen/get_started_screen.dart';
+import 'package:zephyr_app/presentation/homepage_tracking_habits_screen/homepage_tracking_habits_screen.dart';
 import 'package:zephyr_app/presentation/reset_password_screen/reset_password_screen.dart';
 import 'package:zephyr_app/presentation/sign_up_page_screen/sign_up_page_screen.dart';
+import 'package:zephyr_app/service/firestore_service.dart';
 import 'package:zephyr_app/widgets/custom_button.dart';
 
 class LoginPageScreen extends StatefulWidget {
@@ -87,7 +91,7 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                                   right: 49,
                                 ),
                                 child: Text(
-                                  "WELCOME TO Monumental habits".toUpperCase(),
+                                  "WELCOME TO ZEPHYR".toUpperCase(),
                                   maxLines: null,
                                   textAlign: TextAlign.center,
                                   style: AppStyle.txtKlasikRegular32,
@@ -95,6 +99,9 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                               ),
                               InkWell(
                                 onTap: () async {
+                                  // Clear ID token google
+                                  // await FirebaseAuth.instance.signOut();
+                                  print("I dey here");
                                   GoogleSignIn _googleSignIn =
                                       GoogleSignIn(scopes: ['email']);
                                   try {
@@ -107,12 +114,31 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                                       accessToken: googleAuth.accessToken,
                                       idToken: googleAuth.idToken,
                                     );
-                                    await FirebaseAuth.instance
+                                    var user = await FirebaseAuth.instance
                                         .signInWithCredential(credential);
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(
                                             content: Text(
                                                 "Logged in successfully")));
+
+                                    DataBaseService _dataBaseService =
+                                        DataBaseService(uid: user.user!.uid);
+
+                                    var data =
+                                        await _dataBaseService.getUserData();
+                                    if (data.uid != '') {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HomepageTrackingHabitsScreen()));
+                                    } else {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  GetStartedScreen()));
+                                    }
                                   } catch (e) {
                                     print(e);
                                     ScaffoldMessenger.of(context).showSnackBar(

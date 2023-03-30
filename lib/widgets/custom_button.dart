@@ -10,6 +10,7 @@ class CustomButton extends StatelessWidget {
       this.alignment,
       this.margin,
       this.onTap,
+      this.isactive = true,
       this.isLoading = false,
       this.width,
       this.height,
@@ -43,6 +44,7 @@ class CustomButton extends StatelessWidget {
 
   bool? isLoading = false;
 
+  bool? isactive;
   @override
   Widget build(BuildContext context) {
     return alignment != null
@@ -57,7 +59,7 @@ class CustomButton extends StatelessWidget {
     return Padding(
       padding: margin ?? EdgeInsets.zero,
       child: TextButton(
-        onPressed: onTap,
+        onPressed: isactive! ? onTap : null,
         style: _buildTextButtonStyle(),
         child: _buildButtonWithOrWithoutIcon(),
       ),
@@ -150,7 +152,11 @@ class CustomButton extends StatelessWidget {
       case ButtonVariant.FillOrange5001:
         return ColorConstant.orange5001;
       default:
-        return ColorConstant.orange30001;
+        if (!isactive!) {
+          return ColorConstant.orange5001;
+        } else {
+          return ColorConstant.orange30001;
+        }
     }
   }
 

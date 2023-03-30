@@ -33,7 +33,7 @@ class _IntroductionOneScreenState extends State<IntroductionOneScreen> {
                   right: 26,
                 ),
                 child: Text(
-                  "WELCOME TO Monumental habits".toUpperCase(),
+                  "WELCOME TO ZEPHYR".toUpperCase(),
                   maxLines: null,
                   textAlign: TextAlign.center,
                   style: AppStyle.txtKlasikRegular32,

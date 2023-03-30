@@ -28,7 +28,9 @@ class UserModel {
       uid: data['uid'],
       displayName: data['displayName'],
       email: data['email'],
-      authType: data['authType'],
+      authType: AuthType.values.firstWhere(
+        (e) => e.toString() == data['authType'],
+      ),
       carbonFootprint: data['carbonFootprint'],
       carbonFootprintGoal: data['carbonFootprintGoal'],
       carbonFootprintSaved: data['carbonFootprintSaved'],

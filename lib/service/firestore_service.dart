@@ -24,9 +24,11 @@ class DataBaseService {
 
   /// Update user data
   /// [newUser] is the new user data
-  Future<bool> updateUserData(UserModel newUser) async {
+  Future<bool> updateUserData(var updates) async {
+    if (updates is! Map<String, dynamic>)
+      throw Exception('Updates must be a Map<String, dynamic>');
     try {
-      await userCollection.doc(uid).update(newUser.toMap());
+      await userCollection.doc(uid).update(updates);
       return true;
     } catch (e) {
       print(e.toString());

@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:zephyr_app/core/app_export.dart';
+import 'package:zephyr_app/service/firestore_service.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -10,9 +12,19 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     // Load for 3 secondds
-    Future.delayed(Duration(seconds: 3), () {
-      // Navigate to home screen
-      Navigator.pushNamed(context, AppRoutes.introductionmain);
+    Future.delayed(Duration(seconds: 3), () async {
+      if (FirebaseAuth.instance.currentUser != null) {
+        DataBaseService _dataBaseService =
+            DataBaseService(uid: FirebaseAuth.instance.currentUser!.uid);
+        if ((await _dataBaseService.getUserData()).uid != '') {
+          Navigator.pushNamed(context, AppRoutes.homepageTrackingHabitsScreen);
+        } else {
+          Navigator.pushNamed(context, AppRoutes.introductionmain);
+        }
+      } else
+
+        // Navigate to home screen
+        Navigator.pushNamed(context, AppRoutes.introductionmain);
     });
     super.initState();
   }
@@ -116,7 +128,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           top: 95,
                         ),
                         child: Text(
-                          "WELCOME TO\nMonumental habits".toUpperCase(),
+                          "WELCOME TO\nZEPHYR".toUpperCase(),
                           maxLines: null,
                           textAlign: TextAlign.center,
                           style: AppStyle.txtKlasikRegular40,

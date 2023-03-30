@@ -70,8 +70,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '281741773479',
     projectId: 'zephyrapp-dev',
     storageBucket: 'zephyrapp-dev.appspot.com',
-    androidClientId: '281741773479-9ru8jp0bjpgm2irf290a4t7s2nb368rq.apps.googleusercontent.com',
-    iosClientId: '281741773479-1a7su7mq8bnigji4huff22982uun4hbb.apps.googleusercontent.com',
+    androidClientId:
+        '281741773479-9ru8jp0bjpgm2irf290a4t7s2nb368rq.apps.googleusercontent.com',
+    iosClientId:
+        '281741773479-1a7su7mq8bnigji4huff22982uun4hbb.apps.googleusercontent.com',
     iosBundleId: 'app.zephyrproject.zephyrapp',
   );
 }

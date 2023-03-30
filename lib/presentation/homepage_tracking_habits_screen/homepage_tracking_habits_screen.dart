@@ -1,3 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:zephyr_app/models/location_model.dart';
+import 'package:zephyr_app/models/request_api_model.dart';
+import 'package:zephyr_app/presentation/profile_dashboard_screen/profile_dashboard_screen.dart';
+import 'package:zephyr_app/service/firestore_service.dart';
+
+import '../../service/api_service.dart';
 import '../homepage_tracking_habits_screen/widgets/listreadabook_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:zephyr_app/core/app_export.dart';
@@ -34,18 +42,14 @@ class HomepageTrackingHabitsScreen extends StatelessWidget {
           ),
           actions: [
             CustomImageView(
-              imagePath: ImageConstant.imgImage,
+              url: FirebaseAuth.instance.currentUser!.photoURL!,
               height: getSize(
                 44,
               ),
               width: getSize(
                 44,
               ),
-              radius: BorderRadius.circular(
-                getHorizontalSize(
-                  22,
-                ),
-              ),
+              radius: BorderRadius.circular(100),
               margin: getMargin(
                 left: 27,
                 top: 11,
@@ -233,15 +237,86 @@ class HomepageTrackingHabitsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              CustomImageView(
-                imagePath: ImageConstant.imgMenuWhiteA700,
-                height: getVerticalSize(
-                  124,
-                ),
-                width: getHorizontalSize(
-                  414,
-                ),
+              Align(
                 alignment: Alignment.bottomCenter,
+                child: BottomNavigationBar(
+                    onTap: (value) async {
+                      ApiService apiService = ApiService();
+                      Location origin = Location(
+                        40.160304539691815,
+                        -82.9638559032275,
+                        "Origin",
+                      );
+                      Location destination = Location(
+                        40.264072850977264,
+                        -81.8564467400299,
+                        "Dest",
+                      );
+
+                      RouteType travelMode = RouteType.driving;
+                      String routingPreference = "TRAFFIC_AWARE_OPTIMAL";
+                      var requestedReferenceRoutes = ["FUEL_EFFICIENT"];
+                      var vehicleInfo = {
+                        "emissionType": "GASOLINE",
+                      };
+
+                      var request = await apiService.getRouteCar(
+                          origin: origin,
+                          destination: destination,
+                          travelMode: travelMode,
+                          routingPreference: routingPreference,
+                          requestedReferenceRoutes: requestedReferenceRoutes,
+                          vehicleInfo: vehicleInfo);
+
+                      print(request);
+                      // Switch
+                      if (value == 2) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfileDashboardScreen(),
+                          ),
+                        );
+                      }
+                    },
+                    items: [
+                      BottomNavigationBarItem(
+                        icon: CustomImageView(
+                          imagePath: ImageConstant.imageNotFound,
+                          height: getVerticalSize(
+                            24,
+                          ),
+                          width: getHorizontalSize(
+                            24,
+                          ),
+                        ),
+                        label: "Home",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: CustomImageView(
+                          imagePath: ImageConstant.imageNotFound,
+                          height: getVerticalSize(
+                            24,
+                          ),
+                          width: getHorizontalSize(
+                            24,
+                          ),
+                        ),
+                        label: "Group",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: CustomImageView(
+                          imagePath: ImageConstant.imageNotFound,
+                          height: getVerticalSize(
+                            24,
+                          ),
+                          width: getHorizontalSize(
+                            24,
+                          ),
+                        ),
+                        label: "Profile",
+                      ),
+                    ]),
               ),
               Align(
                 alignment: Alignment.topCenter,
@@ -250,349 +325,269 @@ class HomepageTrackingHabitsScreen extends StatelessWidget {
                     left: 20,
                     top: 14,
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Card(
-                        clipBehavior: Clip.antiAlias,
-                        elevation: 0,
-                        margin: EdgeInsets.all(0),
-                        color: ColorConstant.whiteA700,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                            getHorizontalSize(
-                              12,
-                            ),
-                          ),
-                        ),
-                        child: Container(
-                          height: getVerticalSize(
-                            146,
-                          ),
-                          width: getHorizontalSize(
-                            374,
-                          ),
-                          decoration: AppDecoration.fillWhiteA700.copyWith(
-                            borderRadius: BorderRadiusStyle.roundedBorder10,
-                          ),
-                          child: Stack(
-                            alignment: Alignment.topLeft,
-                            children: [
-                              CustomImageView(
-                                imagePath:
-                                    ImageConstant.imgPastedimage01146x204,
-                                height: getVerticalSize(
-                                  146,
-                                ),
-                                width: getHorizontalSize(
-                                  204,
-                                ),
-                                radius: BorderRadius.circular(
+                  child: StreamBuilder(
+                      stream: DataBaseService(
+                              uid: FirebaseAuth.instance.currentUser!.uid)
+                          .userData,
+                      builder: (context, snapshot) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Card(
+                              clipBehavior: Clip.antiAlias,
+                              elevation: 0,
+                              margin: EdgeInsets.all(0),
+                              color: ColorConstant.whiteA700,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
                                   getHorizontalSize(
                                     12,
                                   ),
                                 ),
-                                alignment: Alignment.centerRight,
                               ),
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Container(
-                                  width: getHorizontalSize(
-                                    220,
-                                  ),
-                                  margin: getMargin(
-                                    left: 15,
-                                    top: 27,
-                                  ),
-                                  child: Text(
-                                    "We first make our habits, \nand then our habits \nmakes us."
-                                        .toUpperCase(),
-                                    maxLines: null,
-                                    textAlign: TextAlign.left,
-                                    style: AppStyle.txtKlasikRegular18,
-                                  ),
+                              child: Container(
+                                height: getVerticalSize(
+                                  146,
                                 ),
-                              ),
-                              Align(
-                                alignment: Alignment.bottomLeft,
-                                child: Padding(
-                                  padding: getPadding(
-                                    left: 14,
-                                    bottom: 36,
-                                  ),
-                                  child: Text(
-                                    "- anonymous".toUpperCase(),
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    style: AppStyle.txtManropeBold12,
-                                  ),
+                                width: getHorizontalSize(
+                                  374,
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          padding: getPadding(
-                            left: 18,
-                            top: 19,
-                          ),
-                          child: IntrinsicWidth(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: getPadding(
-                                    top: 14,
-                                    bottom: 15,
-                                  ),
-                                  child: Text(
-                                    "Habits".toUpperCase(),
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    style: AppStyle.txtManropeBold14,
-                                  ),
+                                decoration:
+                                    AppDecoration.fillWhiteA700.copyWith(
+                                  borderRadius:
+                                      BorderRadiusStyle.roundedBorder10,
                                 ),
-                                Spacer(),
-                                Container(
-                                  padding: getPadding(
-                                    left: 14,
-                                    top: 6,
-                                    right: 14,
-                                    bottom: 6,
-                                  ),
-                                  decoration:
-                                      AppDecoration.fillWhiteA700.copyWith(
-                                    borderRadius:
-                                        BorderRadiusStyle.roundedBorder10,
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: getPadding(
-                                          top: 4,
-                                        ),
-                                        child: Text(
-                                          "SUN",
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.left,
-                                          style: AppStyle.txtManropeBold10,
+                                child: Stack(
+                                  alignment: Alignment.topLeft,
+                                  children: [
+                                    CustomImageView(
+                                      imagePath:
+                                          ImageConstant.imgPastedimage01146x204,
+                                      height: getVerticalSize(
+                                        146,
+                                      ),
+                                      width: getHorizontalSize(
+                                        204,
+                                      ),
+                                      radius: BorderRadius.circular(
+                                        getHorizontalSize(
+                                          12,
                                         ),
                                       ),
-                                      Text(
-                                        "17",
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.left,
-                                        style: AppStyle.txtManropeBold16Gray800,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: getMargin(
-                                    left: 6,
-                                  ),
-                                  padding: getPadding(
-                                    left: 13,
-                                    top: 6,
-                                    right: 13,
-                                    bottom: 6,
-                                  ),
-                                  decoration:
-                                      AppDecoration.fillWhiteA700.copyWith(
-                                    borderRadius:
-                                        BorderRadiusStyle.roundedBorder10,
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: getPadding(
-                                          top: 4,
-                                        ),
-                                        child: Text(
-                                          "MON",
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.left,
-                                          style: AppStyle.txtManropeBold10,
-                                        ),
-                                      ),
-                                      Text(
-                                        "18",
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.left,
-                                        style: AppStyle.txtManropeBold16Gray800,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: getMargin(
-                                    left: 6,
-                                  ),
-                                  padding: getPadding(
-                                    left: 15,
-                                    top: 6,
-                                    right: 15,
-                                    bottom: 6,
-                                  ),
-                                  decoration:
-                                      AppDecoration.fillWhiteA700.copyWith(
-                                    borderRadius:
-                                        BorderRadiusStyle.roundedBorder10,
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: getPadding(
-                                          top: 4,
-                                        ),
-                                        child: Text(
-                                          "TUE",
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.left,
-                                          style: AppStyle.txtManropeBold10,
-                                        ),
-                                      ),
-                                      Text(
-                                        "18",
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.left,
-                                        style: AppStyle.txtManropeBold16Gray800,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: getMargin(
-                                    left: 6,
-                                  ),
-                                  padding: getPadding(
-                                    left: 13,
-                                    top: 6,
-                                    right: 13,
-                                    bottom: 6,
-                                  ),
-                                  decoration:
-                                      AppDecoration.fillWhiteA700.copyWith(
-                                    borderRadius:
-                                        BorderRadiusStyle.roundedBorder10,
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: getPadding(
-                                          top: 4,
-                                        ),
-                                        child: Text(
-                                          "WED",
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.left,
-                                          style: AppStyle.txtManropeBold10,
-                                        ),
-                                      ),
-                                      Text(
-                                        "19",
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.left,
-                                        style: AppStyle.txtManropeBold16Gray800,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: getMargin(
-                                    left: 6,
-                                  ),
-                                  padding: getPadding(
-                                    left: 15,
-                                    top: 1,
-                                    right: 15,
-                                    bottom: 1,
-                                  ),
-                                  decoration:
-                                      AppDecoration.fillWhiteA700.copyWith(
-                                    borderRadius:
-                                        BorderRadiusStyle.roundedBorder10,
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      CustomImageView(
-                                        svgPath: ImageConstant.imageNotFound,
-                                        height: getVerticalSize(
-                                          3,
-                                        ),
+                                      alignment: Alignment.centerRight,
+                                    ),
+                                    Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Container(
                                         width: getHorizontalSize(
-                                          16,
+                                          220,
+                                        ),
+                                        margin: getMargin(
+                                          left: 15,
+                                          top: 27,
+                                        ),
+                                        child: Text(
+                                          "We first make our habits, \nand then our habits \nmakes us."
+                                              .toUpperCase(),
+                                          maxLines: null,
+                                          textAlign: TextAlign.left,
+                                          style: AppStyle.txtKlasikRegular18,
+                                        ),
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Padding(
+                                        padding: getPadding(
+                                          left: 14,
+                                          bottom: 36,
+                                        ),
+                                        child: Text(
+                                          "- anonymous".toUpperCase(),
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.left,
+                                          style: AppStyle.txtManropeBold12,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: getVerticalSize(
+                                20,
+                              ),
+                            ),
+                            if (snapshot.hasData)
+                              Card(
+                                clipBehavior: Clip.antiAlias,
+                                elevation: 0,
+                                margin: EdgeInsets.all(0),
+                                color: ColorConstant.whiteA700,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    getHorizontalSize(
+                                      12,
+                                    ),
+                                  ),
+                                ),
+                                child: Container(
+                                  height: getVerticalSize(
+                                    146,
+                                  ),
+                                  width: getHorizontalSize(
+                                    374,
+                                  ),
+                                  decoration:
+                                      AppDecoration.fillWhiteA700.copyWith(
+                                    borderRadius:
+                                        BorderRadiusStyle.roundedBorder10,
+                                  ),
+                                  child: Stack(
+                                    alignment: Alignment.topLeft,
+                                    children: [
+                                      // Show Progress
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            'Saved Emissions',
+                                            style: AppStyle.txtKlasikRegular18,
+                                          ),
                                         ),
                                       ),
                                       Padding(
-                                        padding: getPadding(
-                                          top: 7,
-                                        ),
-                                        child: Text(
-                                          "THU",
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.left,
-                                          style: AppStyle.txtManropeBold10,
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            '${snapshot.data!.carbonFootprintSaved}',
+                                            style: AppStyle.txtKlasikRegular40,
+                                          ),
                                         ),
                                       ),
                                       Padding(
-                                        padding: getPadding(
-                                          bottom: 5,
-                                        ),
-                                        child: Text(
-                                          "20",
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.left,
-                                          style:
-                                              AppStyle.txtManropeBold16Gray800,
+                                        padding: EdgeInsets.only(
+                                            top: size.width * 0.09,
+                                            left: size.height * 0.18),
+                                        child: Align(
+                                          // alignment: Alignment.bottomLeft,
+                                          child: RichText(
+                                            text: TextSpan(
+                                              text: 'g ',
+                                              style:
+                                                  AppStyle.txtKlasikRegular24,
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text: 'CO',
+                                                    style: AppStyle
+                                                        .txtKlasikRegular24),
+                                                TextSpan(
+                                                    text: '2',
+                                                    style: TextStyle(
+                                                        fontSize: 9,
+                                                        fontWeight:
+                                                            FontWeight.w400)),
+                                              ],
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: getPadding(
-                          top: 13,
-                        ),
-                        child: ListView.separated(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          separatorBuilder: (context, index) {
-                            return SizedBox(
-                              height: getVerticalSize(
-                                8,
                               ),
-                            );
-                          },
-                          itemCount: 4,
-                          itemBuilder: (context, index) {
-                            return ListreadabookItemWidget();
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                            SizedBox(
+                              height: getVerticalSize(
+                                20,
+                              ),
+                            ),
+                            if (snapshot.hasData)
+                              Card(
+                                clipBehavior: Clip.antiAlias,
+                                elevation: 0,
+                                margin: EdgeInsets.all(0),
+                                color: ColorConstant.whiteA700,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    getHorizontalSize(
+                                      12,
+                                    ),
+                                  ),
+                                ),
+                                child: Container(
+                                  height: getVerticalSize(
+                                    146,
+                                  ),
+                                  width: getHorizontalSize(
+                                    374,
+                                  ),
+                                  decoration:
+                                      AppDecoration.fillWhiteA700.copyWith(
+                                    borderRadius:
+                                        BorderRadiusStyle.roundedBorder10,
+                                  ),
+                                  child: Stack(
+                                    alignment: Alignment.topLeft,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            'Consumed Emissions',
+                                            style: AppStyle.txtKlasikRegular18,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            '${snapshot.data!.carbonFootprint}',
+                                            style: AppStyle.txtKlasikRegular40,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: size.width * 0.09,
+                                            left: size.height * 0.18),
+                                        child: Align(
+                                          // alignment: Alignment.bottomLeft,
+                                          child: RichText(
+                                            text: TextSpan(
+                                              text: 'g ',
+                                              style:
+                                                  AppStyle.txtKlasikRegular24,
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text: 'CO',
+                                                    style: AppStyle
+                                                        .txtKlasikRegular24),
+                                                TextSpan(
+                                                    text: '2',
+                                                    style: TextStyle(
+                                                        fontSize: 9,
+                                                        fontWeight:
+                                                            FontWeight.w400)),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                          ],
+                        );
+                      }),
                 ),
               ),
             ],

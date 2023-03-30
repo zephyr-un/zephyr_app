@@ -338,10 +338,30 @@ class _SignUpPageScreenState extends State<SignUpPageScreen> {
                               accessToken: googleAuth.accessToken,
                               idToken: googleAuth.idToken,
                             );
-                            await FirebaseAuth.instance
+                            var user = await FirebaseAuth.instance
                                 .signInWithCredential(credential);
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text("Logged in successfully")));
+                            DataBaseService db =
+                                DataBaseService(uid: user.user!.uid);
+                            UserModel newUser = UserModel(
+                                uid: user.user!.uid,
+                                displayName: user.user!.displayName!,
+                                email: user.user!.email!,
+                                authType: AuthType.google);
+                            bool b = await db.createUserData(newUser);
+                            if (b) {
+                              showSnackBar(
+                                  context, "Account created successfully");
+
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          GetStartedScreen()));
+                            } else {
+                              throw Exception("Error while creating account");
+                            }
                           } catch (e) {
                             print(e);
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(

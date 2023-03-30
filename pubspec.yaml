@@ -20,10 +20,14 @@ dependencies:
   google_sign_in: ^6.0.2
   cloud_firestore: ^4.4.5
   smooth_page_indicator:
-  cached_network_image:
+  cached_network_image: 
+  place_picker: ^0.10.0
+  
+  http: ^0.13.5
   flutter_localizations:
     sdk: flutter
   intl: ^0.17.0
+
 
 dev_dependencies:
   bloc_test: ^9.1.1

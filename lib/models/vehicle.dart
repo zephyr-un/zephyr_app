@@ -15,16 +15,20 @@ class VehicleModel {
 
   factory VehicleModel.fromMap(Map<String, dynamic> data) {
     return VehicleModel(
-      vehicleType: data['vehicleType'],
-      fuelType: data['fuelType'],
+      vehicleType: VehicleType.values.firstWhere(
+        (e) => e.toString() == data['vehicleType'],
+      ),
+      fuelType: FuelType.values.firstWhere(
+        (e) => e.toString() == data['fuelType'],
+      ),
       vehicleName: data['vehicleName'],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'vehicleType': vehicleType,
-      'fuelType': fuelType,
+      'vehicleType': vehicleType.toString(),
+      'fuelType': fuelType.toString(),
       'vehicleName': vehicleName,
     };
   }

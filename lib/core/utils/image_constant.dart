@@ -6,6 +6,8 @@ class ImageConstant {
 
   static String imgUnion = 'assets/images/img_union.svg';
   static String imgGroup10 = 'assets/images/img_group10.png';
+  static String imgGroup262 = 'assets/images/img_group262.png';
+  static String imgGroup263 = 'assets/images/img_group263.png';
 
   static String imgGroup11 = 'assets/images/img_group11.png';
 
