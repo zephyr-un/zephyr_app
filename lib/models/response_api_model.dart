@@ -15,8 +15,8 @@ class RouteResponse {
     required this.polyline,
     required this.fuelConsumptionMicroliters,
     required this.routeLabels,
-    this.savedConsumption = 0,
-    this.savedEmmissions = 0,
+    required this.savedConsumption,
+    required this.savedEmmissions,
   });
 
   factory RouteResponse.fromJson(Map<String, dynamic> json) {

@@ -17,6 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
         DataBaseService _dataBaseService =
             DataBaseService(uid: FirebaseAuth.instance.currentUser!.uid);
         if ((await _dataBaseService.getUserData()).uid != '') {
+          FirebaseAuth.instance.currentUser!.reload();
           Navigator.pushNamed(context, AppRoutes.homepageTrackingHabitsScreen);
         } else {
           Navigator.pushNamed(context, AppRoutes.introductionmain);

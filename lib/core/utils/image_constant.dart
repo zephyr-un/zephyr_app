@@ -7,6 +7,9 @@ class ImageConstant {
   static String imgUnion = 'assets/images/img_union.svg';
   static String imgGroup10 = 'assets/images/img_group10.png';
   static String imgGroup262 = 'assets/images/img_group262.png';
+
+  static String imgPastedimage0170x70 =
+      'assets/images/img_pastedimage01_70x70.png';
   static String imgGroup263 = 'assets/images/img_group263.png';
 
   static String imgGroup11 = 'assets/images/img_group11.png';
@@ -14,6 +17,8 @@ class ImageConstant {
   static String imgXmlid641 = 'assets/images/img_xmlid641.svg';
 
   static String imgEllipse856 = 'assets/images/img_ellipse856.svg';
+
+  static String imgTicket = 'assets/images/img_ticket.svg';
 
   static String imgShapesOrange100 = 'assets/images/img_shapes_orange_100.png';
 
@@ -142,6 +147,8 @@ class ImageConstant {
   static String imgTeepeeswirly = 'assets/images/img_teepeeswirly.png';
 
   static String imgXmlid712 = 'assets/images/img_xmlid712.png';
+
+  static String imgInfo = 'assets/images/img_info.svg';
 
   static String imgPastedimage01146x204 =
       'assets/images/img_pastedimage01_146x204.png';

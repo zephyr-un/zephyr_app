@@ -1,19 +1,38 @@
+import 'package:place_picker/place_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:zephyr_app/core/app_export.dart';
+import 'package:zephyr_app/models/location_model.dart';
+import 'package:zephyr_app/models/request_api_model.dart';
+import 'package:zephyr_app/models/vehicle.dart';
 import 'package:zephyr_app/presentation/settings_page/settings_page.dart';
+import 'package:zephyr_app/presentation/show_routes/show_route_page.dart';
+import 'package:zephyr_app/service/api_service.dart';
+import 'package:zephyr_app/service/firestore_service.dart';
 import 'package:zephyr_app/widgets/app_bar/appbar_image.dart';
 import 'package:zephyr_app/widgets/app_bar/appbar_title.dart';
 import 'package:zephyr_app/widgets/app_bar/custom_app_bar.dart';
 import 'package:zephyr_app/widgets/custom_bottom_bar.dart';
+import 'package:geolocator/geolocator.dart';
+// import
+// import 'geocoder';
 import 'package:zephyr_app/widgets/custom_text_form_field.dart';
 // ignore_for_file: must_be_immutable
 
 // ignore_for_file: must_be_immutable
 
 // ignore_for_file: must_be_immutable
-
 // ignore_for_file: must_be_immutable
-class HomepageNewHabitScreen extends StatelessWidget {
+class HomepageNewHabitScreen extends StatefulWidget {
+  @override
+  State<HomepageNewHabitScreen> createState() => _HomepageNewHabitScreenState();
+}
+
+class _HomepageNewHabitScreenState extends State<HomepageNewHabitScreen> {
+  var destination = LocationResult();
+  LocationResult origin = LocationResult();
+
+  LatLng? originLatLng;
   TextEditingController vehicleController = TextEditingController();
 
   TextEditingController enterlocationController = TextEditingController();
@@ -23,26 +42,61 @@ class HomepageNewHabitScreen extends StatelessWidget {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   @override
+  void initState() {
+// Check if Location Services are enabled
+    Geolocator.isLocationServiceEnabled().then((value) {
+      if (value) {
+        // Get the current location
+        Geolocator.getCurrentPosition().then((value) {
+          originLatLng = LatLng(value.latitude, value.longitude);
+        });
+      } else {
+        // Request Location Services
+        Geolocator.requestPermission().then((value) {
+          if (value == LocationPermission.always ||
+              value == LocationPermission.whileInUse) {
+            // Get the current location
+            Geolocator.getCurrentPosition().then((value) {
+              originLatLng = LatLng(value.latitude, value.longitude);
+            });
+          } else {
+            // Show a dialog to the user
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("Please enable location services"),
+            ));
+          }
+        });
+      }
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            backgroundColor: ColorConstant.orange50,
-            resizeToAvoidBottomInset: false,
-            appBar: CustomAppBar(
-                height: getVerticalSize(93),
-                leadingWidth: 74,
-                leading: AppbarImage(
-                    height: getVerticalSize(65),
-                    width: getHorizontalSize(64),
-                    svgPath: ImageConstant.imgArrowleft,
-                    margin: getMargin(left: 10),
-                    onTap: () => onTapArrowleft(context)),
-                centerTitle: true,
-                title: AppbarTitle(text: "Calculate Trip Emissions")),
-            body: Container(
-                height: getVerticalSize(723),
-                width: double.maxFinite,
-                child: Stack(alignment: Alignment.bottomCenter, children: [
+      backgroundColor: ColorConstant.orange50,
+      resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(
+          height: getVerticalSize(93),
+          leadingWidth: 74,
+          leading: AppbarImage(
+              height: getVerticalSize(65),
+              width: getHorizontalSize(64),
+              svgPath: ImageConstant.imgArrowleft,
+              margin: getMargin(left: 10),
+              onTap: () => onTapArrowleft(context)),
+          centerTitle: true,
+          title: AppbarTitle(text: "Calculate Trip Emissions")),
+      body: Container(
+          height: getVerticalSize(723),
+          width: double.maxFinite,
+          child: StreamBuilder(
+              stream:
+                  DataBaseService(uid: FirebaseAuth.instance.currentUser!.uid)
+                      .vehicleData,
+              builder: (context, snapshot) {
+                return Stack(alignment: Alignment.bottomCenter, children: [
                   Align(
                       alignment: Alignment.bottomCenter,
                       child: Column(
@@ -75,12 +129,12 @@ class HomepageNewHabitScreen extends StatelessWidget {
                                     child: Stack(
                                         alignment: Alignment.center,
                                         children: [
-                                          CustomImageView(
-                                              imagePath:
-                                                  ImageConstant.imgShapes,
-                                              height: getVerticalSize(58),
-                                              width: getHorizontalSize(105),
-                                              alignment: Alignment.center),
+                                          // CustomImageView(
+                                          //     imagePath:
+                                          //         ImageConstant.imgShapes,
+                                          //     height: getVerticalSize(58),
+                                          //     width: getHorizontalSize(105),
+                                          //     alignment: Alignment.center),
                                           CustomImageView(
                                               imagePath: ImageConstant
                                                   .imgMaskgroup58x104,
@@ -147,11 +201,44 @@ class HomepageNewHabitScreen extends StatelessWidget {
                                                       ])))
                                         ])))
                           ])),
-                  CustomImageView(
-                      svgPath: ImageConstant.imgInfo,
-                      height: getSize(64),
-                      width: getSize(64),
-                      alignment: Alignment.bottomCenter),
+                  GestureDetector(
+                    onTap: () async {
+                      if (origin.latLng == null || destination.latLng == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("Pick a Origin and Destination"),
+                        ));
+                        throw Exception("Pick a Origin and Destination");
+                      }
+                      ApiService apiService = ApiService();
+                      var response = await apiService.getRouteCar(
+                          origin: Location(origin.latLng!.latitude,
+                              origin.latLng!.longitude, 'Origin'),
+                          destination: Location(destination.latLng!.latitude,
+                              destination.latLng!.longitude, 'Destination'),
+                          travelMode: RouteType.driving,
+                          routingPreference: "TRAFFIC_AWARE_OPTIMAL",
+                          requestedReferenceRoutes: [
+                            "FUEL_EFFICIENT"
+                          ],
+                          vehicleInfo: {
+                            "emissionType":
+                                snapshot.data!.fuelType.name.toUpperCase()
+                          });
+                      if (response != null) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ShowRoutes(
+                                      routeResponse: response,
+                                    )));
+                      }
+                    },
+                    child: CustomImageView(
+                        svgPath: ImageConstant.imgInfo,
+                        height: getSize(64),
+                        width: getSize(64),
+                        alignment: Alignment.bottomCenter),
+                  ),
                   Align(
                       alignment: Alignment.topCenter,
                       child: Padding(
@@ -161,12 +248,84 @@ class HomepageNewHabitScreen extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                CustomTextFormField(
-                                    focusNode: FocusNode(),
-                                    controller: vehicleController,
-                                    hintText: "Vehicle",
-                                    padding: TextFormFieldPadding.PaddingT55,
-                                    maxLines: 6),
+                                if (snapshot.hasData)
+                                  Container(
+                                      height:
+                                          getVerticalSize(size.height * .25),
+                                      margin: getMargin(top: 8),
+                                      padding: getPadding(
+                                          left: 20,
+                                          top: 11,
+                                          right: 20,
+                                          bottom: 11),
+                                      decoration: AppDecoration.fillWhiteA700
+                                          .copyWith(
+                                              borderRadius: BorderRadiusStyle
+                                                  .roundedBorder10),
+                                      child: Row(children: [
+                                        if (snapshot.data!.fuelType ==
+                                            FuelType.electric)
+                                          CustomImageView(
+                                            svgPath: ImageConstant
+                                                .img334ecocarflatline,
+                                            height: getVerticalSize(
+                                              157,
+                                            ),
+                                            width: getHorizontalSize(
+                                              211,
+                                            ),
+                                            alignment: Alignment.topCenter,
+                                          ),
+                                        if (snapshot.data!.fuelType ==
+                                            FuelType.gasoline)
+                                          CustomImageView(
+                                            svgPath: ImageConstant
+                                                .img545roadtripoutline,
+                                            height: getVerticalSize(
+                                              157,
+                                            ),
+                                            width: getHorizontalSize(
+                                              211,
+                                            ),
+                                            alignment: Alignment.topCenter,
+                                          ),
+                                        if (snapshot.data!.fuelType ==
+                                            FuelType.hybrid)
+                                          CustomImageView(
+                                            svgPath: ImageConstant
+                                                .img334ecocaroutline,
+                                            height: getVerticalSize(
+                                              157,
+                                            ),
+                                            width: getHorizontalSize(
+                                              211,
+                                            ),
+                                            alignment: Alignment.topCenter,
+                                          ),
+                                        // Text(snapshot.data!.vehicleName),
+                                        // Text(snapshot.data!.fuelType.name)
+                                        RichText(
+                                            text: TextSpan(children: [
+                                          TextSpan(
+                                              text: snapshot.data!.vehicleName,
+                                              style: AppStyle.txtManropeMedium14
+                                                  .copyWith(
+                                                      color: Colors.black)),
+                                          TextSpan(
+                                              text: "\nFuel Type: ",
+                                              style:
+                                                  AppStyle.txtManropeMedium14),
+                                          TextSpan(
+                                              text: snapshot.data!.fuelType.name
+                                                      .substring(0, 1)
+                                                      .toUpperCase() +
+                                                  snapshot.data!.fuelType.name
+                                                      .substring(1),
+                                              style: AppStyle.txtManropeMedium12
+                                                  .copyWith(
+                                                      color: Colors.black)),
+                                        ]))
+                                      ])),
                                 Container(
                                     margin: getMargin(top: 8),
                                     padding: getPadding(
@@ -187,17 +346,26 @@ class HomepageNewHabitScreen extends StatelessWidget {
                                               style:
                                                   AppStyle.txtManropeMedium16)),
                                       Expanded(
-                                          child: CustomTextFormField(
-                                              focusNode: FocusNode(),
-                                              controller:
-                                                  enterlocationController,
-                                              hintText: "Enter Location",
-                                              margin: getMargin(
-                                                  left: 12, top: 2, bottom: 1),
-                                              variant:
-                                                  TextFormFieldVariant.None,
-                                              fontStyle: TextFormFieldFontStyle
-                                                  .ManropeBold16Orange30001))
+                                          child: InkWell(
+                                        onTap: () async {
+                                          var origindata =
+                                              await showPlacePicker(
+                                                  context,
+                                                  LatLng(40.160304539691815,
+                                                      -82.9638559032275),
+                                                  false);
+
+                                          setState(() {
+                                            origin = origindata;
+                                          });
+                                        },
+                                        child: Text(
+                                            origin.formattedAddress ??
+                                                "Click to add Where you are?",
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.right,
+                                            style: AppStyle.txtManropeMedium16),
+                                      )),
                                     ])),
                                 Container(
                                     margin: getMargin(top: 11),
@@ -219,18 +387,27 @@ class HomepageNewHabitScreen extends StatelessWidget {
                                               textAlign: TextAlign.left,
                                               style:
                                                   AppStyle.txtManropeMedium16)),
-                                      CustomTextFormField(
-                                          width: getHorizontalSize(222),
-                                          focusNode: FocusNode(),
-                                          controller:
-                                              enterlocationOneController,
-                                          hintText: "Enter Location",
-                                          margin:
-                                              getMargin(left: 12, bottom: 3),
-                                          variant: TextFormFieldVariant.None,
-                                          fontStyle: TextFormFieldFontStyle
-                                              .ManropeBold16Orange30001,
-                                          textInputAction: TextInputAction.done)
+                                      Expanded(
+                                          child: InkWell(
+                                        onTap: () async {
+                                          var destinationdata =
+                                              await showPlacePicker(
+                                                  context,
+                                                  LatLng(40.160304539691815,
+                                                      -82.9638559032275),
+                                                  false);
+
+                                          setState(() {
+                                            destination = destinationdata;
+                                          });
+                                        },
+                                        child: Text(
+                                            destination.formattedAddress ??
+                                                "Click to add a Destination",
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.right,
+                                            style: AppStyle.txtManropeMedium16),
+                                      )),
                                     ])),
                                 Spacer(),
                                 Container(
@@ -294,14 +471,16 @@ class HomepageNewHabitScreen extends StatelessWidget {
                                               radius: BorderRadius.circular(
                                                   getHorizontalSize(35)),
                                               alignment: Alignment.topCenter)
-                                        ]))
+                                        ])),
                               ])))
-                ])),
-            bottomNavigationBar:
-                CustomBottomBar(onChanged: (BottomBarEnum type) {
-              Navigator.pushNamed(
-                  navigatorKey.currentContext!, getCurrentRoute(type));
-            })));
+                ]);
+              })),
+      // bottomNavigationBar:
+      //     CustomBottomBar(onChanged: (BottomBarEnum type) {
+      //   Navigator.pushNamed(
+      //       navigatorKey.currentContext!, getCurrentRoute(type));
+      // })
+    ));
   }
 
   String getCurrentRoute(BottomBarEnum type) {
@@ -330,6 +509,17 @@ class HomepageNewHabitScreen extends StatelessWidget {
       default:
         return DefaultWidget();
     }
+  }
+
+  Future<LocationResult> showPlacePicker(
+      BuildContext context, LatLng customLocation, bool isdest) async {
+    LocationResult result = await Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => PlacePicker(
+              "AIzaSyBlFXfZNXaX_9I_Rls8ExqxkTu6OI1X3e0",
+              displayLocation: customLocation,
+            )));
+
+    return result;
   }
 
   onTapArrowleft(BuildContext context) {

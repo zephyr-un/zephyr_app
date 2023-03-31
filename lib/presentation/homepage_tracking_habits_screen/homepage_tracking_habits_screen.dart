@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:zephyr_app/models/location_model.dart';
 import 'package:zephyr_app/models/request_api_model.dart';
 import 'package:zephyr_app/presentation/profile_dashboard_screen/profile_dashboard_screen.dart';
 import 'package:zephyr_app/service/firestore_service.dart';
+import 'package:zephyr_app/widgets/custom_button.dart';
 
 import '../../service/api_service.dart';
-import '../homepage_tracking_habits_screen/widgets/listreadabook_item_widget.dart';
+import '../homepage_c/homepage.dart';
+// import '../homepage_tracking_habits_screen/widgets/listreadabook_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:zephyr_app/core/app_export.dart';
 import 'package:zephyr_app/widgets/app_bar/appbar_image.dart';
@@ -18,6 +20,31 @@ class HomepageTrackingHabitsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        floatingActionButton: Column(
+          children: [
+            SizedBox(
+              height: size.height * .8,
+            ),
+            CustomButton(
+              height: getSize(
+                64,
+              ),
+
+              text: 'Add New Trip',
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => HomepageNewHabitScreen()));
+              },
+              // suffixWidget: Icon(Icons.add),
+              fontStyle: ButtonFontStyle.ManropeBold16Gray800,
+              width: getSize(
+                150,
+              ),
+            ),
+          ],
+        ),
         backgroundColor: ColorConstant.orange50,
         appBar: CustomAppBar(
           height: getVerticalSize(
@@ -41,20 +68,46 @@ class HomepageTrackingHabitsScreen extends StatelessWidget {
             text: "Homepage",
           ),
           actions: [
-            CustomImageView(
-              url: FirebaseAuth.instance.currentUser!.photoURL!,
-              height: getSize(
-                44,
-              ),
-              width: getSize(
-                44,
-              ),
-              radius: BorderRadius.circular(100),
-              margin: getMargin(
-                left: 27,
-                top: 11,
-                right: 27,
-                bottom: 10,
+            // Circular Profile
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProfileDashboardScreen()));
+              },
+              child: Container(
+                margin: getMargin(
+                  right: 10,
+                ),
+                height: getVerticalSize(
+                  50,
+                ),
+                width: getHorizontalSize(
+                  50,
+                ),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: NetworkImage(
+                        FirebaseAuth.instance.currentUser!.photoURL!),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Stack(
+                  children: [
+                    CustomImageView(
+                      imagePath: ImageConstant.imgMaskgroup76x117,
+                      height: getVerticalSize(
+                        65,
+                      ),
+                      width: getHorizontalSize(
+                        65,
+                      ),
+                      alignment: Alignment.center,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -123,16 +176,16 @@ class HomepageTrackingHabitsScreen extends StatelessWidget {
                           child: Stack(
                             alignment: Alignment.center,
                             children: [
-                              CustomImageView(
-                                imagePath: ImageConstant.imgShapes,
-                                height: getVerticalSize(
-                                  58,
-                                ),
-                                width: getHorizontalSize(
-                                  105,
-                                ),
-                                alignment: Alignment.center,
-                              ),
+                              // CustomImageView(
+                              //   imagePath: ImageConstant.imgShapes,
+                              //   height: getVerticalSize(
+                              //     58,
+                              //   ),
+                              //   width: getHorizontalSize(
+                              //     105,
+                              //   ),
+                              //   alignment: Alignment.center,
+                              // ),
                               CustomImageView(
                                 imagePath: ImageConstant.imgMaskgroup58x104,
                                 height: getVerticalSize(
@@ -185,6 +238,7 @@ class HomepageTrackingHabitsScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
+                        // height: ,
                         width: double.maxFinite,
                         child: Container(
                           margin: getMargin(
@@ -229,6 +283,7 @@ class HomepageTrackingHabitsScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                              // CustomButton()
                             ],
                           ),
                         ),
@@ -237,87 +292,60 @@ class HomepageTrackingHabitsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: BottomNavigationBar(
-                    onTap: (value) async {
-                      ApiService apiService = ApiService();
-                      Location origin = Location(
-                        40.160304539691815,
-                        -82.9638559032275,
-                        "Origin",
-                      );
-                      Location destination = Location(
-                        40.264072850977264,
-                        -81.8564467400299,
-                        "Dest",
-                      );
+              // Align(
+              //   alignment: Alignment.bottomCenter,
+              //   child: BottomNavigationBar(
+              //       onTap: (value) async {
 
-                      RouteType travelMode = RouteType.driving;
-                      String routingPreference = "TRAFFIC_AWARE_OPTIMAL";
-                      var requestedReferenceRoutes = ["FUEL_EFFICIENT"];
-                      var vehicleInfo = {
-                        "emissionType": "GASOLINE",
-                      };
-
-                      var request = await apiService.getRouteCar(
-                          origin: origin,
-                          destination: destination,
-                          travelMode: travelMode,
-                          routingPreference: routingPreference,
-                          requestedReferenceRoutes: requestedReferenceRoutes,
-                          vehicleInfo: vehicleInfo);
-
-                      print(request);
-                      // Switch
-                      if (value == 2) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProfileDashboardScreen(),
-                          ),
-                        );
-                      }
-                    },
-                    items: [
-                      BottomNavigationBarItem(
-                        icon: CustomImageView(
-                          imagePath: ImageConstant.imageNotFound,
-                          height: getVerticalSize(
-                            24,
-                          ),
-                          width: getHorizontalSize(
-                            24,
-                          ),
-                        ),
-                        label: "Home",
-                      ),
-                      BottomNavigationBarItem(
-                        icon: CustomImageView(
-                          imagePath: ImageConstant.imageNotFound,
-                          height: getVerticalSize(
-                            24,
-                          ),
-                          width: getHorizontalSize(
-                            24,
-                          ),
-                        ),
-                        label: "Group",
-                      ),
-                      BottomNavigationBarItem(
-                        icon: CustomImageView(
-                          imagePath: ImageConstant.imageNotFound,
-                          height: getVerticalSize(
-                            24,
-                          ),
-                          width: getHorizontalSize(
-                            24,
-                          ),
-                        ),
-                        label: "Profile",
-                      ),
-                    ]),
-              ),
+              //         // Switch
+              //         if (value == 2) {
+              //           Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //               builder: (context) => ProfileDashboardScreen(),
+              //             ),
+              //           );
+              //         }
+              //       },
+              //       items: [
+              //         BottomNavigationBarItem(
+              //           icon: CustomImageView(
+              //             imagePath: ImageConstant.imageNotFound,
+              //             height: getVerticalSize(
+              //               24,
+              //             ),
+              //             width: getHorizontalSize(
+              //               24,
+              //             ),
+              //           ),
+              //           label: "Home",
+              //         ),
+              //         BottomNavigationBarItem(
+              //           icon: CustomImageView(
+              //             imagePath: ImageConstant.imageNotFound,
+              //             height: getVerticalSize(
+              //               24,
+              //             ),
+              //             width: getHorizontalSize(
+              //               24,
+              //             ),
+              //           ),
+              //           label: "Group",
+              //         ),
+              //         BottomNavigationBarItem(
+              //           icon: CustomImageView(
+              //             imagePath: ImageConstant.imageNotFound,
+              //             height: getVerticalSize(
+              //               24,
+              //             ),
+              //             width: getHorizontalSize(
+              //               24,
+              //             ),
+              //           ),
+              //           label: "Profile",
+              //         ),
+              //       ]),
+              // ),
               Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
@@ -585,6 +613,12 @@ class HomepageTrackingHabitsScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                            SizedBox(
+                              height: getVerticalSize(
+                                40,
+                              ),
+                            ),
+                            // CustomButton()
                           ],
                         );
                       }),

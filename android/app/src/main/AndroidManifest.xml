@@ -2,7 +2,7 @@
     package="app.zephyrproject.zephyrapp">
    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
    <application
-        android:label="zephyr_app"
+        android:label="Zephyr"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
@@ -23,12 +23,14 @@
               android:resource="@style/NormalTheme"
               />     
               <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="YOUR KEY HERE"/>       
+               android:value="AIzaSyBlFXfZNXaX_9I_Rls8ExqxkTu6OI1X3e0"/>       
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyBlFXfZNXaX_9I_Rls8ExqxkTu6OI1X3e0"/>   
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

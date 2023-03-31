@@ -187,6 +187,13 @@ class CustomTextFormField extends StatelessWidget {
 
   _setPadding() {
     switch (padding) {
+      case TextFormFieldPadding.PaddingT55:
+        return getPadding(
+          left: 20,
+          top: 55,
+          right: 20,
+          bottom: 55,
+        );
       case TextFormFieldPadding.PaddingAll17:
         return getPadding(
           all: 17,
@@ -206,6 +213,7 @@ enum TextFormFieldShape {
 
 enum TextFormFieldPadding {
   PaddingT14,
+  PaddingT55,
   PaddingAll17,
 }
 
@@ -218,4 +226,5 @@ enum TextFormFieldVariant {
 enum TextFormFieldFontStyle {
   ManropeMedium16,
   ManropeBold16,
+  ManropeBold16Orange30001,
 }

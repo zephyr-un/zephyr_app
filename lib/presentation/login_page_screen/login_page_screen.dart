@@ -13,6 +13,8 @@ import 'package:zephyr_app/presentation/sign_up_page_screen/sign_up_page_screen.
 import 'package:zephyr_app/service/firestore_service.dart';
 import 'package:zephyr_app/widgets/custom_button.dart';
 
+import '../../models/user.dart';
+
 class LoginPageScreen extends StatefulWidget {
   @override
   State<LoginPageScreen> createState() => _LoginPageScreenState();
@@ -126,7 +128,17 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
 
                                     var data =
                                         await _dataBaseService.getUserData();
-                                    if (data.uid != '') {
+                                    if (data.uid == '') {
+                                      UserModel userModel = UserModel(
+                                          uid: FirebaseAuth
+                                              .instance.currentUser!.uid,
+                                          displayName: FirebaseAuth.instance
+                                              .currentUser!.displayName!,
+                                          email: FirebaseAuth
+                                              .instance.currentUser!.email!,
+                                          authType: AuthType.google);
+                                      await _dataBaseService
+                                          .createUserData(userModel);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(

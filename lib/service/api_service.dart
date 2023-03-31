@@ -8,7 +8,7 @@ import 'package:zephyr_app/models/response_api_model.dart';
 class ApiService {
   static const String _baseUrl = 'https://devapi.zephyrproject.app/api/v1';
 
-  Future<Map<String, List<RouteResponse>>> getRouteCar(
+  Future<Map<String, List<RouteResponse>>?> getRouteCar(
       {required Location origin,
       required Location destination,
       required RouteType travelMode,
