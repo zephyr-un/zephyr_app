@@ -2,10 +2,13 @@
     package="app.zephyrproject.zephyrapp">
    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
    <application
+   
         android:label="Zephyr"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-
+    <!-- Add your api key here -->
+    <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyBlFXfZNXaX_9I_Rls8ExqxkTu6OI1X3e0"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -44,11 +44,17 @@ class ProfileDashboardScreen extends StatelessWidget {
                 centerTitle: true,
                 title: AppbarTitle(text: "Profile"),
                 actions: [
-                  AppbarImage(
-                      height: getVerticalSize(65),
-                      width: getHorizontalSize(64),
-                      svgPath: ImageConstant.imgEdit,
-                      margin: getMargin(left: 17, right: 17))
+                  InkWell(
+                    onTap: () => {
+                      FirebaseAuth.instance.signOut(),
+                      FirebaseAuth.instance.currentUser!.reload(),
+                    },
+                    child: AppbarImage(
+                        height: getVerticalSize(65),
+                        width: getHorizontalSize(64),
+                        svgPath: ImageConstant.imgEdit,
+                        margin: getMargin(left: 17, right: 17)),
+                  )
                 ]),
             body: SingleChildScrollView(
               child: Container(

@@ -515,7 +515,7 @@ class _HomepageNewHabitScreenState extends State<HomepageNewHabitScreen> {
       BuildContext context, LatLng customLocation, bool isdest) async {
     LocationResult result = await Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => PlacePicker(
-              "AIzaSyBlFXfZNXaX_9I_Rls8ExqxkTu6OI1X3e0",
+              String.fromEnvironment('GOOGLE_MAPS_API_KEY'),
               displayLocation: customLocation,
             )));
 

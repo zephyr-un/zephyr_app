@@ -128,7 +128,13 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
 
                                     var data =
                                         await _dataBaseService.getUserData();
-                                    if (data.uid == '') {
+                                    if (data.uid != '') {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HomepageTrackingHabitsScreen()));
+                                    } else {
                                       UserModel userModel = UserModel(
                                           uid: FirebaseAuth
                                               .instance.currentUser!.uid,
@@ -139,12 +145,7 @@ class _LoginPageScreenState extends State<LoginPageScreen> {
                                           authType: AuthType.google);
                                       await _dataBaseService
                                           .createUserData(userModel);
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  HomepageTrackingHabitsScreen()));
-                                    } else {
+
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
