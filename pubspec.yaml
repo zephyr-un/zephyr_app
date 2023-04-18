@@ -19,7 +19,7 @@ dependencies:
   flutter_svg_provider: 
   google_sign_in: ^6.0.2
   cloud_firestore: ^4.4.5
-  smooth_page_indicator:
+  smooth_page_indicator: ^1.1.0
   cached_network_image: 
   place_picker: ^0.10.0
   
