@@ -23,7 +23,7 @@ dependencies:
   cached_network_image: 
   place_picker: ^0.10.0
   
-  http: ^0.13.5
+  http: ^0.13.6
   flutter_localizations:
     sdk: flutter
   intl: ^0.17.0
